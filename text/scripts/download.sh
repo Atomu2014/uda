@@ -42,4 +42,4 @@ cd data/IMDB_raw
 wget https://ai.stanford.edu/~amaas/data/sentiment/aclImdb_v1.tar.gz
 tar xzvf aclImdb_v1.tar.gz && rm aclImdb_v1.tar.gz
 cd ../..
-python utils/imdb_format.py --raw_data_dir=data/IMDB_raw/aclImdb --train_id_path=data/IMDB_raw/train_id_list.txt --output_dir=data/IMDB_raw/csv
+python3 utils/imdb_format.py --raw_data_dir=data/IMDB_raw/aclImdb --train_id_path=data/IMDB_raw/train_id_list.txt --output_dir=data/IMDB_raw/csv

@@ -17,7 +17,7 @@ bert_vocab_file=pretrained_models/bert_base/vocab.txt
 
 
 # Preprocess supervised training set
-python preprocess.py \
+python3 preprocess.py \
   --raw_data_dir=data/IMDB_raw/csv \
   --output_base_dir=data/proc_data/IMDB/train_20 \
   --data_type=sup \
@@ -27,7 +27,7 @@ python preprocess.py \
   $@
 
 # Preprocess test set
-python preprocess.py \
+python3 preprocess.py \
   --raw_data_dir=data/IMDB_raw/csv \
   --output_base_dir=data/proc_data/IMDB/dev \
   --data_type=sup \
@@ -37,7 +37,7 @@ python preprocess.py \
 
 
 # Preprocess unlabeled set
-python preprocess.py \
+python3 preprocess.py \
   --raw_data_dir=data/IMDB_raw/csv \
   --output_base_dir=data/proc_data/IMDB/unsup \
   --back_translation_dir=data/back_translation/imdb_back_trans \

@@ -27,7 +27,7 @@ import tensorflow as tf
 
 def open_reader(input_file, encoding="utf-8"):
   """Opens a text file for reading."""
-  return codecs.getreader(encoding)(tf.gfile.GFile(input_file, "r"))
+  return tf.gfile.GFile(input_file, "r")
 
 
 def load_vocab(vocab_file):
@@ -103,7 +103,7 @@ class BasicTokenizer(object):
 
   def tokenize(self, text):
     """Tokenizes a piece of text."""
-    text = _convert_to_unicode_or_throw(text)
+    # text = _convert_to_unicode_or_throw(text)
     text = self._clean_text(text)
     orig_tokens = whitespace_tokenize(text)
     split_tokens = []
@@ -187,7 +187,7 @@ class WordpieceTokenizer(object):
       A list of wordpiece tokens.
     """
 
-    text = _convert_to_unicode_or_throw(text)
+    # text = _convert_to_unicode_or_throw(text)
 
     output_tokens = []
     for token in whitespace_tokenize(text):
