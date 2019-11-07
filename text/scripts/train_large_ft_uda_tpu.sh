@@ -12,21 +12,21 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-train_tpu=node-1
-eval_tpu=node-2
-model_dir=gs://qizhex/uda/text/ckpt/large_ft_uda_exp_1
+train_tpu=uda-v3
+eval_tpu=uda-v3
+model_dir=$GS/uda/text/ckpt/large_ft_uda_exp_1
 
-python main.py \
+python3 main.py \
   --use_tpu=True \
   --tpu_name=${train_tpu} \
   --do_train=True \
   --do_eval=False \
-  --sup_train_data_dir= \
-  --unsup_data_dir= \
-  --eval_data_dir= \
-  --bert_config_file= \
-  --vocab_file= \
-  --init_checkpoint= \
+  --sup_train_data_dir=$GS/uda/text/data/proc_data/IMDB/train_20 \
+  --unsup_data_dir=$GS/uda/text/data/proc_data/IMDB/unsup \
+  --eval_data_dir=$GS/uda/text/data/proc_data/IMDB/dev \
+  --bert_config_file=$GS/uda/text/pretrained_models/imdb_bert_ft/bert_config.json \
+  --vocab_file=$GS/uda/text/pretrained_models/imdb_bert_ft/vocab.txt \
+  --init_checkpoint=$GS/uda/text/pretrained_models/imdb_bert_ft/bert_model.ckpt \
   --task_name=IMDB \
   --model_dir=${model_dir} \
   --max_seq_length=512 \
@@ -41,15 +41,15 @@ python main.py \
   --uda_softmax_temp=0.85 \
   --tsa=linear_schedule
 
-python main.py \
+python3 main.py \
   --use_tpu=True \
   --tpu_name=${eval_tpu} \
   --do_train=False \
   --do_eval=True \
-  --sup_train_data_dir= \
-  --eval_data_dir= \
-  --bert_config_file= \
-  --vocab_file= \
+  --sup_train_data_dir=$GS/uda/text/data/proc_data/IMDB/train_20 \
+  --eval_data_dir=$GS/uda/text/data/proc_data/IMDB/dev \
+  --bert_config_file=$GS/uda/text/pretrained_models/imdb_bert_ft/bert_config.json \
+  --vocab_file=$GS/uda/text/pretrained_models/imdb_bert_ft/vocab.txt \
   --task_name=IMDB \
   --model_dir=${model_dir} \
   --max_seq_length=512 \
