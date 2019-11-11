@@ -19,21 +19,21 @@ mkdir pretrained_models
 # download bert base
 cd pretrained_models
 wget https://storage.googleapis.com/bert_models/2018_10_18/uncased_L-12_H-768_A-12.zip
-unzip uncased_L-12_H-768_A-12.zip && rm uncased_L-12_H-768_A-12.zip
+python3 ../unzip.py uncased_L-12_H-768_A-12.zip . && rm uncased_L-12_H-768_A-12.zip
 mv uncased_L-12_H-768_A-12 bert_base
 cd ..
 
 # download bert large ft
 cd pretrained_models
 wget https://storage.googleapis.com/uda_model/text/imdb_bert_ft.zip
-unzip imdb_bert_ft.zip && rm imdb_bert_ft.zip
+python3 ../unzip.py imdb_bert_ft.zip . && rm imdb_bert_ft.zip
 cd ..
 
 # **** download back translated data ****
 mkdir -p data/back_translation
 cd data/back_translation
 wget https://storage.googleapis.com/uda_model/text/imdb_back_trans.zip
-unzip imdb_back_trans.zip && rm imdb_back_trans.zip
+python3 ../../unzip.py imdb_back_trans.zip . && rm imdb_back_trans.zip
 cd ../../
 
 # **** download IMDB data and convert it to csv files ****

@@ -13,7 +13,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 python3 main.py \
-  --use_tpu=False \
+  --use_tpu=True \
+  --tpu_name=kevin \
   --do_train=True \
   --do_eval=True \
   --sup_train_data_dir=$GS/uda/text/data/proc_data/IMDB/train_20 \
@@ -24,6 +25,7 @@ python3 main.py \
   --init_checkpoint=$GS/uda/text/pretrained_models/bert_base/bert_model.ckpt \
   --task_name=IMDB \
   --model_dir=$GS/uda/text/ckpt/base_uda \
+  --train_batch_size=8 \
   --num_train_steps=10000 \
   --learning_rate=2e-05 \
   --num_warmup_steps=1000 \
