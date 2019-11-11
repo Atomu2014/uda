@@ -13,17 +13,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 python3 main.py \
-  --use_tpu=False \
+  --use_tpu=True \
+  --tpu_name=kevin \
   --do_train=True \
   --do_eval=True \
-  --sup_train_data_dir=data/proc_data/IMDB/train_20 \
-  --eval_data_dir=data/proc_data/IMDB/dev \
-  --bert_config_file=pretrained_models/bert_base/bert_config.json \
-  --vocab_file=pretrained_models/bert_base/vocab.txt \
-  --init_checkpoint=pretrained_models/bert_base/bert_model.ckpt \
+  --sup_train_data_dir=$GS/data/proc_data/IMDB/train_20 \
+  --eval_data_dir=$GS/data/proc_data/IMDB/dev \
+  --bert_config_file=$GS/pretrained_models/bert_base/bert_config.json \
+  --vocab_file=$GS/pretrained_models/bert_base/vocab.txt \
+  --init_checkpoint=$GS/pretrained_models/bert_base/bert_model.ckpt \
   --task_name=IMDB \
   --model_dir=ckpt/base \
   --num_train_steps=3000 \
   --learning_rate=3e-05 \
   --num_warmup_steps=300 \
-  $@
+  --max_seq_length=${MAX_SEQ_LENGTH}
