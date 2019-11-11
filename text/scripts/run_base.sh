@@ -17,11 +17,11 @@ python3 main.py \
   --tpu_name=kevin \
   --do_train=True \
   --do_eval=True \
-  --sup_train_data_dir=$GS/uda/data/proc_data/IMDB/train_20 \
-  --eval_data_dir=$GS/uda/data/proc_data/IMDB/dev \
-  --bert_config_file=$GS/uda/pretrained_models/bert_base/bert_config.json \
-  --vocab_file=$GS/uda/pretrained_models/bert_base/vocab.txt \
-  --init_checkpoint=$GS/uda/pretrained_models/bert_base/bert_model.ckpt \
+  --sup_train_data_dir=$GS/uda/text/data/proc_data/IMDB/train_20 \
+  --eval_data_dir=$GS/uda/text/data/proc_data/IMDB/dev \
+  --bert_config_file=$GS/uda/text/pretrained_models/bert_base/bert_config.json \
+  --vocab_file=$GS/uda/text/pretrained_models/bert_base/vocab.txt \
+  --init_checkpoint=$GS/uda/text/pretrained_models/bert_base/bert_model.ckpt \
   --task_name=IMDB \
   --model_dir=ckpt/base \
   --num_train_steps=3000 \
