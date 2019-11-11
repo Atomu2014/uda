@@ -25,7 +25,7 @@ python3 main.py \
   --init_checkpoint=$GS/uda/text/pretrained_models/bert_base/bert_model.ckpt \
   --task_name=IMDB \
   --model_dir=$GS/uda/text/ckpt/base_uda \
-  --train_batch_size=8 \
+  --train_batch_size=32 \
   --num_train_steps=10000 \
   --learning_rate=2e-05 \
   --num_warmup_steps=1000 \
@@ -34,4 +34,4 @@ python3 main.py \
   --aug_ops=bt-0.9 \
   --aug_copy=1 \
   --uda_coeff=1 \
-  $@
+  --max_seq_length=${MAX_SEQ_LENGTH}
