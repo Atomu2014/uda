@@ -23,7 +23,7 @@ python3 main.py \
   --vocab_file=$GS/uda/text/pretrained_models/bert_base/vocab.txt \
   --init_checkpoint=$GS/uda/text/pretrained_models/bert_base/bert_model.ckpt \
   --task_name=IMDB \
-  --model_dir=ckpt/base \
+  --model_dir=$GS/uda/text/ckpt/base \
   --num_train_steps=3000 \
   --learning_rate=3e-05 \
   --num_warmup_steps=300 \
