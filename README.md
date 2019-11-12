@@ -111,9 +111,9 @@ bash train_large_ft_uda_tpu.sh
 First of all, install the following dependencies:
 
 ```shell
-pip install --user nltk
-python -c "import nltk; nltk.download('punkt')"
-pip install --user tensor2tensor==1.13.4
+pip3 install --user nltk
+python3 -c "import nltk; nltk.download('punkt')"
+pip3 install --user tensor2tensor==1.13.4
 ```
 
 The following command translates the provided example file. It automatically
