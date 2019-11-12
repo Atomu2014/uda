@@ -66,11 +66,13 @@ t2t-decoder \
   --hparams_set=transformer_big \
   --hparams="sampling_method=random,sampling_temp=${sampling_temp}" \
   --decode_hparams="beam_size=1,batch_size=16" \
-  --checkpoint_path=checkpoints/enfr/model.ckpt-500000 \
+  --checkpoint_path=$GS/uda/back_translate/checkpoints/enfr/model.ckpt-500000 \
   --output_dir=/tmp/t2t \
-  --decode_from_file=${forward_src_dir}/file_${worker_id}_of_${replicas}.txt \
-  --decode_to_file=${forward_gen_dir}/file_${worker_id}_of_${replicas}.txt \
-  --data_dir=checkpoints
+  --decode_from_file=$GS/uda/back_translate/${forward_src_dir}/file_${worker_id}_of_${replicas}.txt \
+  --decode_to_file=$GS/uda/back_translate/${forward_gen_dir}/file_${worker_id}_of_${replicas}.txt \
+  --data_dir=$GS/uda/back_translate/checkpoints \
+  --use_tpu \
+  --cloud_tpu_name=$TPU_NAME
 
 #echo "*** backward translation ***"
 #t2t-decoder \
