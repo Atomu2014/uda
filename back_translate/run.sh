@@ -59,34 +59,36 @@ mkdir -p ${para_dir}
 #  --replicas=${replicas} \
 #  --worker_id=${worker_id} \
 
-echo "*** forward translation ***"
+#echo "*** forward translation ***"
+#t2t-decoder \
+#  --problem=translate_enfr_wmt32k \
+#  --model=transformer \
+#  --hparams_set=transformer_big \
+#  --hparams="sampling_method=random,sampling_temp=${sampling_temp}" \
+#  --decode_hparams="beam_size=1,batch_size=16" \
+#  --checkpoint_path=$GS/uda/back_translate/checkpoints/enfr/model.ckpt-500000 \
+#  --output_dir=/tmp/t2t \
+#  --decode_from_file=$GS/uda/back_translate/${forward_src_dir}/file_${worker_id}_of_${replicas}.txt \
+#  --decode_to_file=$GS/uda/back_translate/${forward_gen_dir}/file_${worker_id}_of_${replicas}.txt \
+#  --data_dir=$GS/uda/back_translate/checkpoints \
+#  --use_tpu \
+#  --cloud_tpu_name=$TPU_NAME
+
+echo "*** backward translation ***"
 t2t-decoder \
-  --problem=translate_enfr_wmt32k \
+  --problem=translate_enfr_wmt32k_rev \
   --model=transformer \
   --hparams_set=transformer_big \
   --hparams="sampling_method=random,sampling_temp=${sampling_temp}" \
-  --decode_hparams="beam_size=1,batch_size=16" \
-  --checkpoint_path=$GS/uda/back_translate/checkpoints/enfr/model.ckpt-500000 \
+  --decode_hparams="beam_size=1,batch_size=16,alpha=0" \
+  --checkpoint_path=$GS/uda/back_translate/checkpoints/fren/model.ckpt-500000 \
   --output_dir=/tmp/t2t \
-  --decode_from_file=$GS/uda/back_translate/${forward_src_dir}/file_${worker_id}_of_${replicas}.txt \
-  --decode_to_file=$GS/uda/back_translate/${forward_gen_dir}/file_${worker_id}_of_${replicas}.txt \
+  --decode_from_file=$GS/uda/back_translate/${forward_gen_dir}/file_${worker_id}_of_${replicas}.txt \
+  --decode_to_file=$GS/uda/back_translate/${backward_gen_dir}/file_${worker_id}_of_${replicas}.txt \
   --data_dir=$GS/uda/back_translate/checkpoints \
   --use_tpu \
   --cloud_tpu_name=$TPU_NAME
 
-#echo "*** backward translation ***"
-#t2t-decoder \
-#  --problem=translate_enfr_wmt32k_rev \
-#  --model=transformer \
-#  --hparams_set=transformer_big \
-#  --hparams="sampling_method=random,sampling_temp=${sampling_temp}" \
-#  --decode_hparams="beam_size=1,batch_size=16,alpha=0" \
-#  --checkpoint_path=checkpoints/fren/model.ckpt-500000 \
-#  --output_dir=/tmp/t2t \
-#  --decode_from_file=${forward_gen_dir}/file_${worker_id}_of_${replicas}.txt \
-#  --decode_to_file=${backward_gen_dir}/file_${worker_id}_of_${replicas}.txt \
-#  --data_dir=checkpoints
-#
 #echo "*** transform sentences back into paragraphs***"
 #python3 sent_to_paragraph.py \
 #  --input_file=${backward_gen_dir}/file_${worker_id}_of_${replicas}.txt \
