@@ -17,8 +17,8 @@ python3 main.py \
   --tpu_name=kevin \
   --do_train=True \
   --do_eval=True \
-  --sup_train_data_dir=data/proc_data/IMDB/train_20 \
-  --eval_data_dir=data/proc_data/IMDB/dev \
+  --sup_train_data_dir=$GS/uda/text/data/proc_data/IMDB/train_20 \
+  --eval_data_dir=$GS/uda/text/data/proc_data/IMDB/dev \
   --bert_config_file=pretrained_models/bert_base/bert_config.json \
   --vocab_file=pretrained_models/bert_base/vocab.txt \
   --init_checkpoint=pretrained_models/bert_base/bert_model.ckpt \
