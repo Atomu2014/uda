@@ -12,8 +12,8 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-train_tpu=uda-v3
-eval_tpu=uda-v3
+train_tpu=kevin
+eval_tpu=kevin
 model_dir=$GS/uda/text/ckpt/large_ft_uda_exp_1
 
 python3 main.py \
@@ -32,7 +32,7 @@ python3 main.py \
   --max_seq_length=512 \
   --num_train_steps=10000 \
   --learning_rate=2e-05 \
-  --train_batch_size=32 \
+  --train_batch_size=16 \
   --num_warmup_steps=1000 \
   --unsup_ratio=7 \
   --uda_coeff=1 \

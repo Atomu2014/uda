@@ -91,6 +91,6 @@ mkdir -p ${para_dir}
 
 echo "*** transform sentences back into paragraphs***"
 python3 sent_to_paragraph.py \
-  --input_file=$GS/uda/back_translate${backward_gen_dir}/file_${worker_id}_of_${replicas}.txt \
-  --doc_len_file=$GS/uda/back_translate${doc_len_dir}/doc_len_${worker_id}_of_${replicas}.json \
-  --output_file=$GS/uda/back_translate${para_dir}/file_${worker_id}_of_${replicas}.json
+  --input_file=$GS/uda/back_translate/${backward_gen_dir}/file_${worker_id}_of_${replicas}.txt \
+  --doc_len_file=$GS/uda/back_translate/${doc_len_dir}/doc_len_${worker_id}_of_${replicas}.json \
+  --output_file=$GS/uda/back_translate/${para_dir}/file_${worker_id}_of_${replicas}.json
