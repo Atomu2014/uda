@@ -4,3 +4,5 @@
 .idea/
 */data/
 */pretrained_models/
+back_translate/back_trans_data/
+back_translate/checkpoints/
