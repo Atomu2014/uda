@@ -32,7 +32,7 @@ python3 main.py \
   --max_seq_length=${MAX_SEQ_LENGTH} \
   --num_train_steps=3000 \
   --learning_rate=3e-05 \
-  --train_batch_size=32 \
+  --train_batch_size=128 \
   --num_warmup_steps=300
 
 python3 main.py \
@@ -50,5 +50,5 @@ python3 main.py \
   --eval_batch_size=8 \
   --num_train_steps=3000 \
   --learning_rate=3e-05 \
-  --train_batch_size=32 \
+  --train_batch_size=128 \
   --num_warmup_steps=300

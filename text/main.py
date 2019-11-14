@@ -21,6 +21,7 @@ from __future__ import print_function
 import json
 import os
 import tensorflow as tf
+tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
 
 import uda
 from bert import modeling
