@@ -174,9 +174,6 @@ flags.DEFINE_float(
 
 
 def main(_):
-
-  tf.logging.set_verbosity(tf.logging.INFO)
-
   processor = raw_data_utils.get_processor(FLAGS.task_name)
   label_list = processor.get_labels()
 
@@ -191,11 +188,11 @@ def main(_):
   with tf.gfile.Open(os.path.join(FLAGS.model_dir, "FLAGS.json"), "w") as ouf:
     json.dump(flags_dict, ouf)
 
-  tf.logging.info("warmup steps {}/{}".format(
+  tf.logging.error("warmup steps {}/{}".format(
       FLAGS.num_warmup_steps, FLAGS.num_train_steps))
 
   save_checkpoints_steps = FLAGS.num_train_steps // FLAGS.save_checkpoints_num
-  tf.logging.info("setting save checkpoints steps to {:d}".format(
+  tf.logging.error("setting save checkpoints steps to {:d}".format(
       save_checkpoints_steps))
 
   FLAGS.iterations_per_loop = min(save_checkpoints_steps,
@@ -251,9 +248,9 @@ def main(_):
       eval_batch_size=FLAGS.eval_batch_size)
 
   if FLAGS.do_train:
-    tf.logging.info("  >>> sup data dir : {}".format(FLAGS.sup_train_data_dir))
+    tf.logging.error("  >>> sup data dir : {}".format(FLAGS.sup_train_data_dir))
     if FLAGS.unsup_ratio > 0:
-      tf.logging.info("  >>> unsup data dir : {}".format(
+      tf.logging.error("  >>> unsup data dir : {}".format(
           FLAGS.unsup_data_dir))
 
     train_input_fn = proc_data_utils.training_input_fn_builder(
@@ -264,7 +261,7 @@ def main(_):
         FLAGS.unsup_ratio)
 
   if FLAGS.do_eval:
-    tf.logging.info("  >>> dev data dir : {}".format(FLAGS.eval_data_dir))
+    tf.logging.error("  >>> dev data dir : {}".format(FLAGS.eval_data_dir))
     eval_input_fn = proc_data_utils.evaluation_input_fn_builder(
         FLAGS.eval_data_dir,
         "clas")
@@ -273,60 +270,60 @@ def main(_):
     eval_steps = int(eval_size / FLAGS.eval_batch_size)
 
   if FLAGS.do_train and FLAGS.do_eval:
-    tf.logging.info("***** Running training & evaluation *****")
-    tf.logging.info("  Supervised batch size = %d", FLAGS.train_batch_size)
-    tf.logging.info("  Unsupervised batch size = %d",
+    tf.logging.error("***** Running training & evaluation *****")
+    tf.logging.error("  Supervised batch size = %d", FLAGS.train_batch_size)
+    tf.logging.error("  Unsupervised batch size = %d",
                     FLAGS.train_batch_size * FLAGS.unsup_ratio)
-    tf.logging.info("  Num steps = %d", FLAGS.num_train_steps)
-    tf.logging.info("  Base evaluation batch size = %d", FLAGS.eval_batch_size)
-    tf.logging.info("  Num steps = %d", eval_steps)
+    tf.logging.error("  Num steps = %d", FLAGS.num_train_steps)
+    tf.logging.error("  Base evaluation batch size = %d", FLAGS.eval_batch_size)
+    tf.logging.error("  Num steps = %d", eval_steps)
     best_acc = 0
     for _ in range(0, FLAGS.num_train_steps, save_checkpoints_steps):
-      tf.logging.info("*** Running training ***")
+      tf.logging.error("*** Running training ***")
       estimator.train(
           input_fn=train_input_fn,
           steps=save_checkpoints_steps)
-      tf.logging.info("*** Running evaluation ***")
+      tf.logging.error("*** Running evaluation ***")
       dev_result = estimator.evaluate(input_fn=eval_input_fn, steps=eval_steps)
-      tf.logging.info(">> Results:")
+      tf.logging.error(">> Results:")
       for key in dev_result.keys():
-        tf.logging.info("  %s = %s", key, str(dev_result[key]))
+        tf.logging.error("  %s = %s", key, str(dev_result[key]))
         dev_result[key] = dev_result[key].item()
       best_acc = max(best_acc, dev_result["eval_classify_accuracy"])
-    tf.logging.info("***** Final evaluation result *****")
-    tf.logging.info("Best acc: {:.3f}\n\n".format(best_acc))
+    tf.logging.error("***** Final evaluation result *****")
+    tf.logging.error("Best acc: {:.3f}\n\n".format(best_acc))
   elif FLAGS.do_train:
-    tf.logging.info("***** Running training *****")
-    tf.logging.info("  Supervised batch size = %d", FLAGS.train_batch_size)
-    tf.logging.info("  Unsupervised batch size = %d",
+    tf.logging.error("***** Running training *****")
+    tf.logging.error("  Supervised batch size = %d", FLAGS.train_batch_size)
+    tf.logging.error("  Unsupervised batch size = %d",
                     FLAGS.train_batch_size * FLAGS.unsup_ratio)
-    tf.logging.info("  Num steps = %d", FLAGS.num_train_steps)
+    tf.logging.error("  Num steps = %d", FLAGS.num_train_steps)
     estimator.train(input_fn=train_input_fn, max_steps=FLAGS.num_train_steps)
   elif FLAGS.do_eval:
-    tf.logging.info("***** Running evaluation *****")
-    tf.logging.info("  Base evaluation batch size = %d", FLAGS.eval_batch_size)
-    tf.logging.info("  Num steps = %d", eval_steps)
+    tf.logging.error("***** Running evaluation *****")
+    tf.logging.error("  Base evaluation batch size = %d", FLAGS.eval_batch_size)
+    tf.logging.error("  Num steps = %d", eval_steps)
     checkpoint_state = tf.train.get_checkpoint_state(FLAGS.model_dir)
 
     best_acc = 0
     for ckpt_path in checkpoint_state.all_model_checkpoint_paths:
       if not tf.gfile.Exists(ckpt_path + ".data-00000-of-00001"):
-        tf.logging.info(
+        tf.logging.error(
             "Warning: checkpoint {:s} does not exist".format(ckpt_path))
         continue
-      tf.logging.info("Evaluating {:s}".format(ckpt_path))
+      tf.logging.error("Evaluating {:s}".format(ckpt_path))
       dev_result = estimator.evaluate(
           input_fn=eval_input_fn,
           steps=eval_steps,
           checkpoint_path=ckpt_path,
       )
-      tf.logging.info(">> Results:")
+      tf.logging.error(">> Results:")
       for key in dev_result.keys():
-        tf.logging.info("  %s = %s", key, str(dev_result[key]))
+        tf.logging.error("  %s = %s", key, str(dev_result[key]))
         dev_result[key] = dev_result[key].item()
       best_acc = max(best_acc, dev_result["eval_classify_accuracy"])
-    tf.logging.info("***** Final evaluation result *****")
-    tf.logging.info("Best acc: {:.3f}\n\n".format(best_acc))
+    tf.logging.error("***** Final evaluation result *****")
+    tf.logging.error("Best acc: {:.3f}\n\n".format(best_acc))
 
 
 if __name__ == "__main__":

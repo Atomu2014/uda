@@ -15,7 +15,7 @@
 train_tpu=kevin
 eval_tpu=kevin
 bert_model_dir=$GS/uda/text/pretrained_models/bert_large
-model_dir=$GS/uda/text/ckpt/large_exp_1
+model_dir=$GS/uda/text/ckpt/large_exp_2
 
 python3 main.py \
   --use_tpu=True \
