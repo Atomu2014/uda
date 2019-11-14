@@ -48,3 +48,7 @@ python3 main.py \
   --model_dir=${model_dir} \
   --max_seq_length=${MAX_SEQ_LENGTH} \
   --eval_batch_size=8 \
+  --num_train_steps=3000 \
+  --learning_rate=3e-05 \
+  --train_batch_size=32 \
+  --num_warmup_steps=300
