@@ -229,14 +229,15 @@ def model_fn_builder(
   def model_fn(features, labels, mode, params):  # pylint: disable=unused-argument
     """The `model_fn` for TPUEstimator."""
     if print_feature:
-      tf.logging.info("*** Features ***")
+      tf.logging.error("*** Features ***")
       for name in sorted(features.keys()):
-        tf.logging.info(
+        tf.logging.error(
             "  name = %s, shape = %s" % (name, features[name].shape))
 
     is_training = (mode == tf.estimator.ModeKeys.TRAIN)
 
     global_step = tf.train.get_or_create_global_step()
+    print(global_step)
     ##### Classification objective
     label_ids = features["label_ids"]
     label_ids = tf.reshape(label_ids, [-1])
@@ -320,12 +321,12 @@ def model_fn_builder(
       initialized_variable_names = {}
 
     if print_structure:
-      tf.logging.info("**** Trainable Variables ****")
+      tf.logging.error("**** Trainable Variables ****")
       for var in tvars:
         init_string = ""
         if var.name in initialized_variable_names:
           init_string = ", *INIT_FROM_CKPT*"
-        tf.logging.info("  name = %s, shape = %s%s", var.name, var.shape,
+        tf.logging.error("  name = %s, shape = %s%s", var.name, var.shape,
                         init_string)
 
     ##### Construct TPU Estimator Spec based on the specific mode

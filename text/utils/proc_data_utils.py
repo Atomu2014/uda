@@ -100,10 +100,10 @@ def get_aug_files(data_base_path, aug_ops, aug_copy):
           data_record_path)
       sub_policy_data_files += data_files
     if len(exist_copy_num) < aug_copy * 0.9:
-      tf.logging.info("not enough copies for aug op: {:s}".format(aug_ops))
-      tf.logging.info("found files: {:s}".format(
+      tf.logging.error("not enough copies for aug op: {:s}".format(aug_ops))
+      tf.logging.error("found files: {:s}".format(
           " ".join(sub_policy_data_files)))
-      tf.logging.info("found copy: {:d} / desired copy: {:d}".format(
+      tf.logging.error("found copy: {:d} / desired copy: {:d}".format(
           len(exist_copy_num), aug_copy))
     assert len(exist_copy_num) > aug_copy * 0.9
     total_data_files += sub_policy_data_files
@@ -156,7 +156,7 @@ def evaluation_input_fn_builder(data_base_path, task, prefetch_size=1000):
 
   total_data_files = tf.contrib.slim.parallel_reader.get_data_files(
       os.path.join(data_base_path, "tf_examples.tfrecord*"))
-  tf.logging.info("loading eval {} data from these files: {:s}".format(
+  tf.logging.error("loading eval {} data from these files: {:s}".format(
       task, " ".join(total_data_files)))
 
   def input_fn(params):
@@ -206,7 +206,7 @@ def training_input_fn_builder(
     """The `input_fn` for TPUEstimator which generates the feature dataset."""
     sup_batch_size = params["batch_size"]
     total_batch_size = 0
-    tf.logging.info("sup batch size: %d", (sup_batch_size))
+    tf.logging.error("sup batch size: %d", (sup_batch_size))
 
     dataset_list = []
 
@@ -221,7 +221,7 @@ def training_input_fn_builder(
           shuffle_buffer_size,
           get_sup_feature_specs())
       total_batch_size += sup_batch_size
-      tf.logging.info("sup batch size: %d", (sup_batch_size))
+      tf.logging.error("sup batch size: %d", (sup_batch_size))
       dataset_list.append(sup_dst)
 
       ## only consider unsupervised data when supervised data is considered
@@ -235,9 +235,9 @@ def training_input_fn_builder(
             get_unsup_feature_specs())
         total_batch_size += sup_batch_size * unsup_ratio * 2
         dataset_list.append(unsup_dst)
-        tf.logging.info("unsup batch size: %d", (sup_batch_size * unsup_ratio))
+        tf.logging.error("unsup batch size: %d", (sup_batch_size * unsup_ratio))
 
-    tf.logging.info("total sample in a batch: %d", (total_batch_size))
+    tf.logging.error("total sample in a batch: %d", (total_batch_size))
 
     def flatten_input(*features):
       """Merging multiple feature dicts resulted from zipped datasets."""
