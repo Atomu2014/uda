@@ -15,13 +15,13 @@
 train_tpu=kevin
 eval_tpu=kevin
 bert_model_dir=$GS/uda/text/pretrained_models/bert_large
-model_dir=$GS/uda/text/ckpt/large_exp_3
+model_dir=$GS/uda/text/ckpt/large_exp_4
 
 python3 main.py \
   --use_tpu=True \
   --tpu_name=${train_tpu} \
   --do_train=True \
-  --do_eval=False \
+  --do_eval=True \
   --sup_train_data_dir=$GS/uda/text/data/proc_data/IMDB/train_20 \
   --eval_data_dir=$GS/uda/text/data/proc_data/IMDB/dev \
   --bert_config_file=${bert_model_dir}/bert_config.json \
@@ -31,24 +31,24 @@ python3 main.py \
   --model_dir=${model_dir} \
   --max_seq_length=${MAX_SEQ_LENGTH} \
   --num_train_steps=3000 \
-  --learning_rate=1e-05 \
+  --learning_rate=3e-05 \
   --train_batch_size=32 \
   --num_warmup_steps=300
 
-python3 main.py \
-  --use_tpu=True \
-  --tpu_name=${eval_tpu} \
-  --do_train=False \
-  --do_eval=True \
-  --sup_train_data_dir=$GS/uda/text/data/proc_data/IMDB/train_20 \
-  --eval_data_dir=$GS/uda/text/data/proc_data/IMDB/dev \
-  --bert_config_file=${bert_model_dir}/bert_config.json \
-  --vocab_file=${bert_model_dir}/vocab.txt \
-  --task_name=IMDB \
-  --model_dir=${model_dir} \
-  --max_seq_length=${MAX_SEQ_LENGTH} \
-  --eval_batch_size=8 \
-  --num_train_steps=3000 \
-  --learning_rate=1e-05 \
-  --train_batch_size=32 \
-  --num_warmup_steps=300
+#python3 main.py \
+#  --use_tpu=True \
+#  --tpu_name=${eval_tpu} \
+#  --do_train=False \
+#  --do_eval=True \
+#  --sup_train_data_dir=$GS/uda/text/data/proc_data/IMDB/train_20 \
+#  --eval_data_dir=$GS/uda/text/data/proc_data/IMDB/dev \
+#  --bert_config_file=${bert_model_dir}/bert_config.json \
+#  --vocab_file=${bert_model_dir}/vocab.txt \
+#  --task_name=IMDB \
+#  --model_dir=${model_dir} \
+#  --max_seq_length=${MAX_SEQ_LENGTH} \
+#  --eval_batch_size=8 \
+#  --num_train_steps=3000 \
+#  --learning_rate=3e-05 \
+#  --train_batch_size=32 \
+#  --num_warmup_steps=300

@@ -237,7 +237,6 @@ def model_fn_builder(
     is_training = (mode == tf.estimator.ModeKeys.TRAIN)
 
     global_step = tf.train.get_or_create_global_step()
-    print(global_step)
     ##### Classification objective
     label_ids = features["label_ids"]
     label_ids = tf.reshape(label_ids, [-1])
