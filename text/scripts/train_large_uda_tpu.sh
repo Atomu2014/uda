@@ -32,8 +32,8 @@ python3 main.py \
   --model_dir=${model_dir} \
   --max_seq_length=${MAX_SEQ_LENGTH} \
   --num_train_steps=10000 \
-  --learning_rate=2e-05 \
-  --train_batch_size=16 \
+  --learning_rate=1e-05 \
+  --train_batch_size=8 \
   --num_warmup_steps=1000 \
   --unsup_ratio=7 \
   --uda_coeff=1 \
@@ -56,6 +56,6 @@ python3 main.py \
   --max_seq_length=${MAX_SEQ_LENGTH} \
   --eval_batch_size=8 \
   --num_train_steps=10000 \
-  --learning_rate=2e-05 \
-  --train_batch_size=16 \
+  --learning_rate=1e-05 \
+  --train_batch_size=8 \
   --num_warmup_steps=1000
