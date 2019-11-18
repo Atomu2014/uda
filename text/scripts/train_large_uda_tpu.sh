@@ -15,7 +15,7 @@
 train_tpu=kevin
 eval_tpu=kevin
 bert_model_dir=$GS/uda/text/pretrained_models/bert_large
-model_dir=$GS/uda/text/ckpt/large_exp_5
+model_dir=$GS/uda/text/ckpt/large_uda_exp_1
 
 python3 main.py \
   --use_tpu=True \
@@ -23,6 +23,7 @@ python3 main.py \
   --do_train=True \
   --do_eval=False \
   --sup_train_data_dir=$GS/uda/text/data/proc_data/IMDB/train_20 \
+  --unsup_data_dir=$GS/uda/text/data/proc_data/IMDB/unsup \
   --eval_data_dir=$GS/uda/text/data/proc_data/IMDB/dev \
   --bert_config_file=${bert_model_dir}/bert_config.json \
   --vocab_file=${bert_model_dir}/vocab.txt \
@@ -30,10 +31,16 @@ python3 main.py \
   --task_name=IMDB \
   --model_dir=${model_dir} \
   --max_seq_length=${MAX_SEQ_LENGTH} \
-  --num_train_steps=3000 \
-  --learning_rate=3e-05 \
-  --train_batch_size=32 \
-  --num_warmup_steps=300
+  --num_train_steps=10000 \
+  --learning_rate=2e-05 \
+  --train_batch_size=8 \
+  --num_warmup_steps=1000 \
+  --unsup_ratio=7 \
+  --uda_coeff=1 \
+  --aug_ops=bt-0.9 \
+  --aug_copy=1 \
+  --uda_softmax_temp=0.85 \
+  --tsa=linear_schedule
 
 python3 main.py \
   --use_tpu=True \
@@ -48,7 +55,7 @@ python3 main.py \
   --model_dir=${model_dir} \
   --max_seq_length=${MAX_SEQ_LENGTH} \
   --eval_batch_size=8 \
-  --num_train_steps=3000 \
-  --learning_rate=3e-05 \
-  --train_batch_size=32 \
-  --num_warmup_steps=300
+  --num_train_steps=10000 \
+  --learning_rate=2e-05 \
+  --train_batch_size=8 \
+  --num_warmup_steps=1000
