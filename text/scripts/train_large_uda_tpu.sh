@@ -15,7 +15,7 @@
 train_tpu=kevin
 eval_tpu=kevin
 bert_model_dir=$GS/uda/text/pretrained_models/bert_large
-model_dir=$GS/uda/text/ckpt/large_uda_exp_2
+model_dir=$GS/uda/text/ckpt/large_uda_exp_3
 
 python3 main.py \
   --use_tpu=True \
@@ -33,7 +33,7 @@ python3 main.py \
   --max_seq_length=${MAX_SEQ_LENGTH} \
   --num_train_steps=10000 \
   --learning_rate=2e-05 \
-  --train_batch_size=8 \
+  --train_batch_size=16 \
   --num_warmup_steps=1000 \
   --unsup_ratio=7 \
   --uda_coeff=1 \
@@ -57,5 +57,5 @@ python3 main.py \
   --eval_batch_size=8 \
   --num_train_steps=10000 \
   --learning_rate=2e-05 \
-  --train_batch_size=8 \
+  --train_batch_size=16 \
   --num_warmup_steps=1000

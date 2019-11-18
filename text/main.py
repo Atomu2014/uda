@@ -322,6 +322,7 @@ def main(_):
         tf.logging.error("  %s = %s", key, str(dev_result[key]))
         dev_result[key] = dev_result[key].item()
       best_acc = max(best_acc, dev_result["eval_classify_accuracy"])
+      del dev_result
     tf.logging.error("***** Final evaluation result *****")
     tf.logging.error("Best acc: {:.3f}\n\n".format(best_acc))
 
