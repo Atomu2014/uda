@@ -18,8 +18,8 @@ data_dir=$GS/uda/text/data/proc_data/IMDB
 bert_dir=$GS/uda/text/pretrained_models/imdb_bert_ft
 train_batch_size=8
 eval_batch_size=8
-lr=2e-5
-model_dir=$GS/uda/text/ckpt/large_ft_uda_exp_1
+lr=1e-5
+model_dir=$GS/uda/text/ckpt/large_ft_uda_exp_2
 
 python3 main.py \
   --use_tpu=True \
