@@ -324,7 +324,7 @@ def main(_):
       best_acc = max(best_acc, dev_result["eval_classify_accuracy"])
       del dev_result
     tf.logging.error("***** Final evaluation result *****")
-    tf.logging.error("Best acc: {:.3f}\n\n".format(best_acc))
+    tf.logging.error("Best acc: {:.4f}, err: {:.4f}\n\n".format(best_acc, 1-best_acc))
 
 
 if __name__ == "__main__":
