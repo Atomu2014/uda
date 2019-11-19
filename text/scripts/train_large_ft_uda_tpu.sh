@@ -12,8 +12,8 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-train_tpu=kevin
-eval_tpu=kevin
+train_tpu=$TPU_NAME
+eval_tpu=$TPU_NAME
 data_dir=$GS/uda/text/data/proc_data/IMDB
 bert_dir=$GS/uda/text/pretrained_models/imdb_bert_ft
 train_batch_size=8
