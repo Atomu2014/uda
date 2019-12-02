@@ -24,7 +24,16 @@ python3 preprocess.py \
   --sub_set=train \
   --sup_size=20 \
   --vocab_file=$bert_vocab_file \
-  $@
+  --max_seq_length=${MAX_SEQ_LENGTH}
+
+python3 preprocess.py \
+  --raw_data_dir=data/IMDB_raw/csv \
+  --output_base_dir=data/proc_data/IMDB/train \
+  --data_type=sup \
+  --sub_set=train \
+  --sup_size=-1 \
+  --vocab_file=$bert_vocab_file \
+  --max_seq_length=${MAX_SEQ_LENGTH}
 
 # Preprocess test set
 python3 preprocess.py \
@@ -33,7 +42,7 @@ python3 preprocess.py \
   --data_type=sup \
   --sub_set=dev \
   --vocab_file=$bert_vocab_file \
-  $@
+  --max_seq_length=${MAX_SEQ_LENGTH}
 
 
 # Preprocess unlabeled set
@@ -46,4 +55,4 @@ python3 preprocess.py \
   --aug_ops=bt-0.9 \
   --aug_copy_num=0 \
   --vocab_file=$bert_vocab_file \
-  $@
+  --max_seq_length=${MAX_SEQ_LENGTH}

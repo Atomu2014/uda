@@ -13,11 +13,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 python3 main.py \
-  --use_tpu=True \
+  --use_tpu=False \
   --tpu_name=kevin \
   --do_train=True \
   --do_eval=True \
-  --sup_train_data_dir=$GS/uda/text/data/proc_data/IMDB/train_20 \
+  --sup_train_data_dir=$GS/uda/text/data/proc_data/IMDB/train \
   --eval_data_dir=$GS/uda/text/data/proc_data/IMDB/dev \
   --bert_config_file=$GS/uda/text/pretrained_models/bert_base/bert_config.json \
   --vocab_file=$GS/uda/text/pretrained_models/bert_base/vocab.txt \
