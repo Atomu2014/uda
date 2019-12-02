@@ -291,7 +291,7 @@ def main(_):
         dev_result[key] = dev_result[key].item()
       best_acc = max(best_acc, dev_result["eval_classify_accuracy"])
     tf.logging.error("***** Final evaluation result *****")
-    tf.logging.error("Best acc: {:.3f}\n\n".format(best_acc))
+    tf.logging.error("Best acc: {:.4f}, err: {:.4f}\n\n".format(best_acc, 1-best_acc))
   elif FLAGS.do_train:
     tf.logging.error("***** Running training *****")
     tf.logging.error("  Supervised batch size = %d", FLAGS.train_batch_size)
