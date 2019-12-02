@@ -59,7 +59,7 @@ def replace_with_length_check(
 
 
 def back_translation(examples, aug_ops, sub_set, aug_copy_num,
-                     start, end, data_total_size):
+                     start, end, data_total_size, aug_only=False):
   """Run back translation."""
   use_min_length = 10
   use_max_length_diff_ratio = 0.5
@@ -111,10 +111,17 @@ def back_translation(examples, aug_ops, sub_set, aug_copy_num,
     else:
       text_b = None
 
-    example = raw_data_utils.InputExample(
+    if not aug_only:
+      example = raw_data_utils.InputExample(
+          guid=ori_example.guid,
+          text_a=text_a,
+          text_b=text_b,
+          label=ori_example.label)
+    else:
+      assert text_b is not None
+      example = raw_data_utils.InputExample(
         guid=ori_example.guid,
-        text_a=text_a,
-        text_b=text_b,
+        text_a=text_b,
         label=ori_example.label)
     aug_examples += [example]
     if np.random.random() < 0.0001:
@@ -132,12 +139,12 @@ def back_translation(examples, aug_ops, sub_set, aug_copy_num,
 
 def run_augment(
     examples, aug_ops, sub_set, aug_copy_num,
-    start, end, dst_tot_size):
+    start, end, dst_tot_size, aug_only=False):
   """Sentence level augmentations. Used before augmentation."""
   if aug_ops:
     if aug_ops.startswith("bt"):
       examples = back_translation(
-          examples, aug_ops, sub_set, aug_copy_num, start, end, dst_tot_size)
+          examples, aug_ops, sub_set, aug_copy_num, start, end, dst_tot_size, aug_only=False)
     else:
       pass
   return examples

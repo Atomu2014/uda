@@ -69,7 +69,7 @@ flags.DEFINE_bool(
 
 flags.DEFINE_enum(
     "data_type", default="sup",
-    enum_values=["sup", "unsup"],
+    enum_values=["sup", "unsup", 'pseudo'],
     help="Which preprocess task to perform.")
 
 flags.DEFINE_string(
@@ -525,6 +525,55 @@ def proc_and_save_unsup_data(
   dump_tfrecord(unsup_features, unsup_out_dir, worker_id)
 
 
+def proc_and_save_pseudo_data(
+    processor, sub_set,
+    raw_data_dir, data_stats_dir, pseudo_out_dir,
+    tokenizer,
+    max_seq_length, trunc_keep_right,
+    aug_ops, aug_copy_num,
+    worker_id, replicas):
+  random_seed = np.random.randint(0, 100000)
+  tf.logging.info('random seed: {:d}'.format(random_seed))
+  np.random.seed(random_seed)
+  tf.logging.info('getting examples')
+
+  if sub_set == 'train':
+    ori_examples = processor.get_train_examples(raw_data_dir)
+  elif sub_set.startswith('unsup'):
+    ori_examples = processor.get_unsup_examples(raw_data_dir, sub_set)
+  else:
+    assert False
+  data_total_size = len(ori_examples)
+  if replicas != -1:
+    ori_examples, start, end = get_data_for_worker(
+      ori_examples, replicas, worker_id)
+  else:
+    start = 0
+    end = len(ori_examples)
+
+  tf.logging.info('getting augmented examples')
+  aug_examples = copy.deepcopy(ori_examples)
+  aug_examples = sent_level_augment.run_augment(
+    aug_examples, aug_ops, sub_set,
+    aug_copy_num,
+    start, end, data_total_size, aug_only=True)
+
+  tf.logging.info('processing ori & pseudo examples')
+  examples = []
+  labels = processor.get_labels()
+  for example in ori_examples + aug_examples:
+    if example.label in labels:
+      examples.append(example)
+  examples = tokenize_examples(examples, tokenizer)
+  tf.logging.info('ori examples = {:d}, aug examples = {:d}, total = {:d}'.
+                  format(len(ori_examples), len(aug_examples), len(examples)))
+
+  features = convert_examples_to_features(
+    examples, processor.get_labels(), max_seq_length, tokenizer,
+    trunc_keep_right, None, None)
+  dump_tfrecord(features, pseudo_out_dir, worker_id)
+
+
 def main(_):
 
 
@@ -567,6 +616,24 @@ def main(_):
         tokenizer, FLAGS.max_seq_length, FLAGS.trunc_keep_right,
         FLAGS.aug_ops, FLAGS.aug_copy_num,
         FLAGS.worker_id, FLAGS.replicas)
+  elif FLAGS.data_type == 'pseudo':
+    assert FLAGS.aug_ops is not None, \
+        "aug_ops is required to preprocess pseudo-labelled data."
+    pseudo_out_dir = os.path.join(
+        FLAGS.output_base_dir,
+        FLAGS.aug_ops,
+        str(FLAGS.aug_copy_num))
+    data_stats_dir = os.path.join(FLAGS.raw_data_dir, 'data_stats')
+
+
+    tf.logging.info('Create pseudo. data: subset {} => {}'.format(
+      FLAGS.sub_set, pseudo_out_dir))
+    proc_and_save_pseudo_data(
+      processor, FLAGS.sub_set,
+      FLAGS.raw_data_dir, data_stats_dir, pseudo_out_dir,
+      tokenizer, FLAGS.max_seq_length, FLAGS.trunc_keep_right,
+      FLAGS.aug_ops, FLAGS.aug_copy_num,
+      FLAGS.worker_id, FLAGS.replicas)
 
 
 if __name__ == "__main__":
