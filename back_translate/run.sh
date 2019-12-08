@@ -26,7 +26,7 @@ worker_id=0
 input_file: The file to be back translated. We assume that each paragraph is in
 a separate line
 '''
-input_file=example_file.txt
+input_file=imdb_1k.txt
 
 '''
 sampling_temp: The sampling temperature for translation. See README.md for more
@@ -49,6 +49,7 @@ mkdir -p ${forward_gen_dir}
 mkdir -p ${backward_gen_dir}
 mkdir -p ${doc_len_dir}
 mkdir -p ${para_dir}
+mkdir -p tmp/t2t
 
 echo "*** spliting paragraph ***"
 # install nltk
@@ -67,7 +68,7 @@ t2t-decoder \
   --hparams="sampling_method=random,sampling_temp=${sampling_temp}" \
   --decode_hparams="beam_size=1,batch_size=16" \
   --checkpoint_path=$GS/uda/back_translate/checkpoints/enfr/model.ckpt-500000 \
-  --output_dir=/tmp/t2t \
+  --output_dir=tmp/t2t \
   --decode_from_file=${forward_src_dir}/file_${worker_id}_of_${replicas}.txt \
   --decode_to_file=${forward_gen_dir}/file_${worker_id}_of_${replicas}.txt \
   --data_dir=$GS/uda/back_translate/checkpoints
@@ -82,7 +83,7 @@ t2t-decoder \
   --hparams="sampling_method=random,sampling_temp=${sampling_temp}" \
   --decode_hparams="beam_size=1,batch_size=16,alpha=0" \
   --checkpoint_path=$GS/uda/back_translate/checkpoints/fren/model.ckpt-500000 \
-  --output_dir=/tmp/t2t \
+  --output_dir=tmp/t2t \
   --decode_from_file=${forward_gen_dir}/file_${worker_id}_of_${replicas}.txt \
   --decode_to_file=${backward_gen_dir}/file_${worker_id}_of_${replicas}.txt \
   --data_dir=$GS/uda/back_translate/checkpoints
