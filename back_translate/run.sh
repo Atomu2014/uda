@@ -36,7 +36,7 @@ sampling_temp=1
 
 
 # Dirs
-data_dir=${GS}/back_trans_data
+data_dir=${GS}/uda/back_translate/back_trans_data
 doc_len_dir=${data_dir}/doc_len
 forward_src_dir=${data_dir}/forward_src
 forward_gen_dir=${data_dir}/forward_gen
