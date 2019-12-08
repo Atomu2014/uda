@@ -70,9 +70,9 @@ t2t-decoder \
   --output_dir=/tmp/t2t \
   --decode_from_file=${forward_src_dir}/file_${worker_id}_of_${replicas}.txt \
   --decode_to_file=${forward_gen_dir}/file_${worker_id}_of_${replicas}.txt \
-  --data_dir=$GS/uda/back_translate/checkpoints \
-  --use_tpu \
-  --cloud_tpu_name=$TPU_NAME
+  --data_dir=$GS/uda/back_translate/checkpoints
+#  --use_tpu \
+#  --cloud_tpu_name=$TPU_NAME
 
 echo "*** backward translation ***"
 t2t-decoder \
@@ -85,9 +85,9 @@ t2t-decoder \
   --output_dir=/tmp/t2t \
   --decode_from_file=${forward_gen_dir}/file_${worker_id}_of_${replicas}.txt \
   --decode_to_file=${backward_gen_dir}/file_${worker_id}_of_${replicas}.txt \
-  --data_dir=$GS/uda/back_translate/checkpoints \
-  --use_tpu \
-  --cloud_tpu_name=$TPU_NAME
+  --data_dir=$GS/uda/back_translate/checkpoints
+#  --use_tpu \
+#  --cloud_tpu_name=$TPU_NAME
 
 echo "*** transform sentences back into paragraphs***"
 python3 sent_to_paragraph.py \
