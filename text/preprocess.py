@@ -459,7 +459,7 @@ def proc_and_save_sup_data(
 def proc_sup_data_back_trans(processor, raw_data_dir, output_dir):
   lines = processor._read_tsv(raw_data_dir, quotechar='"', delimiter='\t')
 
-  with open(output_dir, 'wb') as fout:
+  with open(output_dir, 'w') as fout:
     for (i, line) in enumerate(lines):
       if i == 0:
         continue
