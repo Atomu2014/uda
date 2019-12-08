@@ -26,17 +26,17 @@ worker_id=0
 input_file: The file to be back translated. We assume that each paragraph is in
 a separate line
 '''
-input_file=example_file.txt
+input_file=imdb.txt
 
 '''
 sampling_temp: The sampling temperature for translation. See README.md for more
 details.
 '''
-sampling_temp=0.8
+sampling_temp=1
 
 
 # Dirs
-data_dir=back_trans_data
+data_dir=${GS}/back_trans_data
 doc_len_dir=${data_dir}/doc_len
 forward_src_dir=${data_dir}/forward_src
 forward_gen_dir=${data_dir}/forward_gen
@@ -50,14 +50,14 @@ mkdir -p ${backward_gen_dir}
 mkdir -p ${doc_len_dir}
 mkdir -p ${para_dir}
 
-#echo "*** spliting paragraph ***"
-## install nltk
-#python3 split_paragraphs.py \
-#  --input_file=${input_file} \
-#  --output_file=${forward_src_dir}/file_${worker_id}_of_${replicas}.txt \
-#  --doc_len_file=${doc_len_dir}/doc_len_${worker_id}_of_${replicas}.json \
-#  --replicas=${replicas} \
-#  --worker_id=${worker_id} \
+echo "*** spliting paragraph ***"
+# install nltk
+python3 split_paragraphs.py \
+  --input_file=${input_file} \
+  --output_file=${forward_src_dir}/file_${worker_id}_of_${replicas}.txt \
+  --doc_len_file=${doc_len_dir}/doc_len_${worker_id}_of_${replicas}.json \
+  --replicas=${replicas} \
+  --worker_id=${worker_id} \
 
 #echo "*** forward translation ***"
 #t2t-decoder \
@@ -73,7 +73,7 @@ mkdir -p ${para_dir}
 #  --data_dir=$GS/uda/back_translate/checkpoints \
 #  --use_tpu \
 #  --cloud_tpu_name=$TPU_NAME
-
+#
 #echo "*** backward translation ***"
 #t2t-decoder \
 #  --problem=translate_enfr_wmt32k_rev \
@@ -88,9 +88,9 @@ mkdir -p ${para_dir}
 #  --data_dir=$GS/uda/back_translate/checkpoints \
 #  --use_tpu \
 #  --cloud_tpu_name=$TPU_NAME
-
-echo "*** transform sentences back into paragraphs***"
-python3 sent_to_paragraph.py \
-  --input_file=$GS/uda/back_translate/${backward_gen_dir}/file_${worker_id}_of_${replicas}.txt \
-  --doc_len_file=$GS/uda/back_translate/${doc_len_dir}/doc_len_${worker_id}_of_${replicas}.json \
-  --output_file=$GS/uda/back_translate/${para_dir}/file_${worker_id}_of_${replicas}.json
+#
+#echo "*** transform sentences back into paragraphs***"
+#python3 sent_to_paragraph.py \
+#  --input_file=$GS/uda/back_translate/${backward_gen_dir}/file_${worker_id}_of_${replicas}.txt \
+#  --doc_len_file=$GS/uda/back_translate/${doc_len_dir}/doc_len_${worker_id}_of_${replicas}.json \
+#  --output_file=$GS/uda/back_translate/${para_dir}/file_${worker_id}_of_${replicas}.json
