@@ -69,7 +69,7 @@ flags.DEFINE_bool(
 
 flags.DEFINE_enum(
     "data_type", default="sup",
-    enum_values=["sup", "unsup", 'pseudo'],
+    enum_values=["sup", "unsup", 'pseudo', 'back_trans'],
     help="Which preprocess task to perform.")
 
 flags.DEFINE_string(
