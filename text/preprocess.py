@@ -456,6 +456,20 @@ def proc_and_save_sup_data(
   dump_tfrecord(features, sup_out_dir, worker_id)
 
 
+def proc_sup_data_back_trans(processor, raw_data_dir, output_dir):
+  lines = processor._read_tsv(raw_data_dir, quotechar='"', delimiter='\t')
+
+  with open(output_dir, 'wb') as fout:
+    for (i, line) in enumerate(lines):
+      if i == 0:
+        continue
+      if line[1] == "unsup":
+        continue
+      text_a = line[0]
+      text_a = raw_data_utils.clean_web_text(text_a)
+      fout.write(text_a + '\n')
+
+
 def proc_and_save_unsup_data(
     processor, sub_set,
     raw_data_dir, data_stats_dir, unsup_out_dir,
@@ -598,6 +612,9 @@ def main(_):
         tokenizer, FLAGS.max_seq_length, FLAGS.trunc_keep_right,
         FLAGS.worker_id, FLAGS.replicas, FLAGS.sup_size,
     )
+  elif FLAGS.data_type == 'back_trans':
+    proc_sup_data_back_trans(processor, FLAGS.raw_data_dir, FLAGS.output_base_dir)
+
   elif FLAGS.data_type == "unsup":
     assert FLAGS.aug_ops is not None, \
         "aug_ops is required to preprocess unsupervised data."
