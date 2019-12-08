@@ -18,7 +18,7 @@ bert_vocab_file=pretrained_models/bert_base/vocab.txt
 
 python3 preprocess.py \
   --raw_data_dir=data/IMDB_raw/csv/train.csv \
-  --output_base_dir=../back_translation/imdb.txt \
+  --output_base_dir=../back_translate/imdb.txt \
   --data_type=back_trans \
   --vocab_file=$bert_vocab_file
 
