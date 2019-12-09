@@ -19,14 +19,14 @@ replicas: An argument for parallel preprocessing. For example, when replicas=3,
 we divide the data into three parts, and only process one part
 according to the worker_id.
 '''
-replicas=1
+replicas=25
 worker_id=0
 
 '''
 input_file: The file to be back translated. We assume that each paragraph is in
 a separate line
 '''
-input_file=imdb_1k.txt
+input_file=imdb.txt
 
 '''
 sampling_temp: The sampling temperature for translation. See README.md for more
@@ -60,38 +60,38 @@ python3 split_paragraphs.py \
   --replicas=${replicas} \
   --worker_id=${worker_id} \
 
-echo "*** forward translation ***"
-t2t-decoder \
-  --problem=translate_enfr_wmt32k \
-  --model=transformer \
-  --hparams_set=transformer_big \
-  --hparams="sampling_method=random,sampling_temp=${sampling_temp}" \
-  --decode_hparams="beam_size=1,batch_size=16" \
-  --checkpoint_path=$GS/uda/back_translate/checkpoints/enfr/model.ckpt-500000 \
-  --output_dir=tmp/t2t \
-  --decode_from_file=${forward_src_dir}/file_${worker_id}_of_${replicas}.txt \
-  --decode_to_file=${forward_gen_dir}/file_${worker_id}_of_${replicas}.txt \
-  --data_dir=$GS/uda/back_translate/checkpoints
-#  --use_tpu \
-#  --cloud_tpu_name=$TPU_NAME
-
-echo "*** backward translation ***"
-t2t-decoder \
-  --problem=translate_enfr_wmt32k_rev \
-  --model=transformer \
-  --hparams_set=transformer_big \
-  --hparams="sampling_method=random,sampling_temp=${sampling_temp}" \
-  --decode_hparams="beam_size=1,batch_size=16,alpha=0" \
-  --checkpoint_path=$GS/uda/back_translate/checkpoints/fren/model.ckpt-500000 \
-  --output_dir=tmp/t2t \
-  --decode_from_file=${forward_gen_dir}/file_${worker_id}_of_${replicas}.txt \
-  --decode_to_file=${backward_gen_dir}/file_${worker_id}_of_${replicas}.txt \
-  --data_dir=$GS/uda/back_translate/checkpoints
-#  --use_tpu \
-#  --cloud_tpu_name=$TPU_NAME
-
-echo "*** transform sentences back into paragraphs***"
-python3 sent_to_paragraph.py \
-  --input_file=${backward_gen_dir}/file_${worker_id}_of_${replicas}.txt \
-  --doc_len_file=${doc_len_dir}/doc_len_${worker_id}_of_${replicas}.json \
-  --output_file=${para_dir}/file_${worker_id}_of_${replicas}.json
+#echo "*** forward translation ***"
+#t2t-decoder \
+#  --problem=translate_enfr_wmt32k \
+#  --model=transformer \
+#  --hparams_set=transformer_big \
+#  --hparams="sampling_method=random,sampling_temp=${sampling_temp}" \
+#  --decode_hparams="beam_size=1,batch_size=16" \
+#  --checkpoint_path=$GS/uda/back_translate/checkpoints/enfr/model.ckpt-500000 \
+#  --output_dir=tmp/t2t \
+#  --decode_from_file=${forward_src_dir}/file_${worker_id}_of_${replicas}.txt \
+#  --decode_to_file=${forward_gen_dir}/file_${worker_id}_of_${replicas}.txt \
+#  --data_dir=$GS/uda/back_translate/checkpoints
+##  --use_tpu \
+##  --cloud_tpu_name=$TPU_NAME
+#
+#echo "*** backward translation ***"
+#t2t-decoder \
+#  --problem=translate_enfr_wmt32k_rev \
+#  --model=transformer \
+#  --hparams_set=transformer_big \
+#  --hparams="sampling_method=random,sampling_temp=${sampling_temp}" \
+#  --decode_hparams="beam_size=1,batch_size=16,alpha=0" \
+#  --checkpoint_path=$GS/uda/back_translate/checkpoints/fren/model.ckpt-500000 \
+#  --output_dir=tmp/t2t \
+#  --decode_from_file=${forward_gen_dir}/file_${worker_id}_of_${replicas}.txt \
+#  --decode_to_file=${backward_gen_dir}/file_${worker_id}_of_${replicas}.txt \
+#  --data_dir=$GS/uda/back_translate/checkpoints
+##  --use_tpu \
+##  --cloud_tpu_name=$TPU_NAME
+#
+#echo "*** transform sentences back into paragraphs***"
+#python3 sent_to_paragraph.py \
+#  --input_file=${backward_gen_dir}/file_${worker_id}_of_${replicas}.txt \
+#  --doc_len_file=${doc_len_dir}/doc_len_${worker_id}_of_${replicas}.json \
+#  --output_file=${para_dir}/file_${worker_id}_of_${replicas}.json
