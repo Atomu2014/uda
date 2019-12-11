@@ -565,6 +565,14 @@ def proc_and_save_pseudo_data(
     start = 0
     end = len(ori_examples)
 
+  labels = processor.get_labels()
+
+  _ori_examples = []
+  for example in ori_examples:
+    if example.label in labels:
+      _ori_examples.append(example)
+  ori_examples = _ori_examples
+
   tf.logging.info('getting augmented examples')
   aug_examples = copy.deepcopy(ori_examples)
   aug_examples = sent_level_augment.run_augment(
@@ -574,7 +582,6 @@ def proc_and_save_pseudo_data(
 
   tf.logging.info('processing ori & pseudo examples')
   examples = []
-  labels = processor.get_labels()
   for example in ori_examples + aug_examples:
     if example.label in labels:
       examples.append(example)
