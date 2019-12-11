@@ -85,7 +85,7 @@ def back_translation(examples, aug_ops, sub_set, aug_copy_num,
   for i in range(len(paraphrases)):
     paraphrases[i] = paraphrases[i].strip()
   # assert len(paraphrases) == data_total_size
-  print('# paraphrases =', len(paraphrases), '# data =', len(data_total_size))
+  print('# paraphrases =', len(paraphrases), '# data =', data_total_size)
 
   paraphrases = paraphrases[start * text_per_example : end * text_per_example]
   aug_examples = []
