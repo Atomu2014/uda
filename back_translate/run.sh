@@ -20,7 +20,7 @@
 #according to the worker_id.
 
 replicas=5
-worker_id=3
+worker_id=4
 
 #input_file: The file to be back translated. We assume that each paragraph is in
 #a separate line
@@ -56,20 +56,20 @@ mkdir -p tmp/t2t
 #  --replicas=${replicas} \
 #  --worker_id=${worker_id} \
 
-echo "*** forward translation ***"
-t2t-decoder \
-  --problem=translate_enfr_wmt32k \
-  --model=transformer \
-  --hparams_set=transformer_big \
-  --hparams="sampling_method=random,sampling_temp=${sampling_temp}" \
-  --decode_hparams="beam_size=1,batch_size=16" \
-  --checkpoint_path=$GS/uda/back_translate/checkpoints/enfr/model.ckpt-500000 \
-  --output_dir=tmp/t2t \
-  --decode_from_file=${forward_src_dir}/file_${worker_id}_of_${replicas}.txt \
-  --decode_to_file=${forward_gen_dir}/file_${worker_id}_of_${replicas}.txt \
-  --data_dir=$GS/uda/back_translate/checkpoints
-#  --use_tpu \
-#  --cloud_tpu_name=$TPU_NAME
+#echo "*** forward translation ***"
+#t2t-decoder \
+#  --problem=translate_enfr_wmt32k \
+#  --model=transformer \
+#  --hparams_set=transformer_big \
+#  --hparams="sampling_method=random,sampling_temp=${sampling_temp}" \
+#  --decode_hparams="beam_size=1,batch_size=16" \
+#  --checkpoint_path=$GS/uda/back_translate/checkpoints/enfr/model.ckpt-500000 \
+#  --output_dir=tmp/t2t \
+#  --decode_from_file=${forward_src_dir}/file_${worker_id}_of_${replicas}.txt \
+#  --decode_to_file=${forward_gen_dir}/file_${worker_id}_of_${replicas}.txt \
+#  --data_dir=$GS/uda/back_translate/checkpoints
+##  --use_tpu \
+##  --cloud_tpu_name=$TPU_NAME
 
 echo "*** backward translation ***"
 t2t-decoder \
