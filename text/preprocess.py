@@ -629,7 +629,6 @@ def main(_):
         str(FLAGS.aug_copy_num))
     data_stats_dir = os.path.join(FLAGS.raw_data_dir, "data_stats")
 
-
     tf.logging.info("Create unsup. data: subset {} => {}".format(
         FLAGS.sub_set, unsup_out_dir))
     proc_and_save_unsup_data(
@@ -646,7 +645,6 @@ def main(_):
         FLAGS.aug_ops,
         str(FLAGS.aug_copy_num))
     data_stats_dir = os.path.join(FLAGS.raw_data_dir, 'data_stats')
-
 
     tf.logging.info('Create pseudo. data: subset {} => {}'.format(
       FLAGS.sub_set, pseudo_out_dir))
