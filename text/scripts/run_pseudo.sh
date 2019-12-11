@@ -4,6 +4,8 @@ ckpt=bt_1_0
 steps=30000
 warmup=3000
 lr=1e-5
+train_bsz=16
+eval_bsz=8
 
 python3 main.py \
   --use_tpu=False \
@@ -20,4 +22,7 @@ python3 main.py \
   --num_train_steps=${steps} \
   --learning_rate=${lr} \
   --num_warmup_steps=${warmup} \
-  --max_seq_length=${MAX_SEQ_LENGTH}
+  --max_seq_length=${MAX_SEQ_LENGTH} \
+  --train_batch_size=${train_bsz} \
+  --eval_batch_size=${eval_bsz}
+
