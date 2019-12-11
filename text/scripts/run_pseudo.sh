@@ -1,3 +1,4 @@
+bert=imdb_bert_ft
 data=bt-1
 ckpt=bt_1_0
 steps=30000
@@ -11,9 +12,9 @@ python3 main.py \
   --do_eval=True \
   --sup_train_data_dir=$GS/uda/text/data/proc_data/IMDB/pseudo/${data}/0 \
   --eval_data_dir=$GS/uda/text/data/proc_data/IMDB/dev \
-  --bert_config_file=$GS/uda/text/pretrained_models/bert_base/bert_config.json \
-  --vocab_file=$GS/uda/text/pretrained_models/bert_base/vocab.txt \
-  --init_checkpoint=$GS/uda/text/pretrained_models/bert_base/bert_model.ckpt \
+  --bert_config_file=$GS/uda/text/pretrained_models/${bert}/bert_config.json \
+  --vocab_file=$GS/uda/text/pretrained_models/${bert}/vocab.txt \
+  --init_checkpoint=$GS/uda/text/pretrained_models/${bert}/bert_model.ckpt \
   --task_name=IMDB \
   --model_dir=$GS/uda/text/ckpt/${ckpt} \
   --num_train_steps=${steps} \
