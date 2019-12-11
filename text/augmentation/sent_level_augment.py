@@ -20,16 +20,14 @@ from __future__ import division
 from __future__ import print_function
 
 import math
-
 import random
-from absl import flags
 
 import numpy as np
 import tensorflow as tf
+from absl import flags
 
 from augmentation import word_level_augment
 from utils import raw_data_utils
-
 
 FLAGS = flags.FLAGS
 
@@ -118,10 +116,9 @@ def back_translation(examples, aug_ops, sub_set, aug_copy_num,
           text_b=text_b,
           label=ori_example.label)
     else:
-      assert text_b is not None
       example = raw_data_utils.InputExample(
         guid=ori_example.guid,
-        text_a=text_b,
+        text_a=text_a,
         label=ori_example.label)
     aug_examples += [example]
     if np.random.random() < 0.0001:

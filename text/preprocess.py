@@ -21,18 +21,17 @@ from __future__ import print_function
 import copy
 import json
 import os
-from absl import app
-from absl import flags
 
 import numpy as np
 import tensorflow as tf
+from absl import app
+from absl import flags
 
 # from augmentation import aug_policy
 from augmentation import sent_level_augment
 from augmentation import word_level_augment
 from utils import raw_data_utils
 from utils import tokenization
-
 
 FLAGS = flags.FLAGS
 
@@ -557,6 +556,13 @@ def proc_and_save_pseudo_data(
     ori_examples = processor.get_unsup_examples(raw_data_dir, sub_set)
   else:
     assert False
+
+  labels = processor.get_labels()
+  _ori_examples = []
+  for example in ori_examples:
+    if example.label in labels:
+      _ori_examples.append(example)
+  ori_examples = _ori_examples
   data_total_size = len(ori_examples)
   if replicas != -1:
     ori_examples, start, end = get_data_for_worker(
@@ -564,14 +570,6 @@ def proc_and_save_pseudo_data(
   else:
     start = 0
     end = len(ori_examples)
-
-  labels = processor.get_labels()
-
-  _ori_examples = []
-  for example in ori_examples:
-    if example.label in labels:
-      _ori_examples.append(example)
-  ori_examples = _ori_examples
 
   tf.logging.info('getting augmented examples')
   aug_examples = copy.deepcopy(ori_examples)
