@@ -86,12 +86,16 @@ def back_translation(examples, aug_ops, sub_set, aug_copy_num,
     paraphrases = inf.readlines()
   for i in range(len(paraphrases)):
     paraphrases[i] = paraphrases[i].strip()
-  # assert len(paraphrases) == data_total_size
+  assert len(paraphrases) == data_total_size
 
   paraphrases = paraphrases[start * text_per_example : end * text_per_example]
   aug_examples = []
   aug_cnt = 0
   for i in range(len(examples)):
+    if i * text_per_example >= len(paraphrases):
+      assert examples[i].label == 'unsup'
+      break
+
     ori_example = examples[i]
     text_a = replace_with_length_check(
         ori_example.text_a,
@@ -144,7 +148,7 @@ def run_augment(
   if aug_ops:
     if aug_ops.startswith("bt"):
       examples = back_translation(
-          examples, aug_ops, sub_set, aug_copy_num, start, end, dst_tot_size, aug_only=False)
+          examples, aug_ops, sub_set, aug_copy_num, start, end, dst_tot_size, aug_only=aug_only)
     else:
       pass
   return examples
