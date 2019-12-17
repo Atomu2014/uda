@@ -1,30 +1,25 @@
-# coding=utf-8
-# Copyright 2019 The Google UDA Team Authors.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
+data=yelp-2
+bert=bert_large
+ckpt=large_0
+step=10000
+lr=1e-5
+warmup=1000
+
 python3 main.py \
   --use_tpu=False \
   --tpu_name=kevin \
   --do_train=True \
   --do_eval=True \
-  --sup_train_data_dir=$GS/uda/text/data/proc_data/IMDB/train \
-  --eval_data_dir=$GS/uda/text/data/proc_data/IMDB/dev \
-  --bert_config_file=$GS/uda/text/pretrained_models/bert_base/bert_config.json \
-  --vocab_file=$GS/uda/text/pretrained_models/bert_base/vocab.txt \
-  --init_checkpoint=$GS/uda/text/pretrained_models/bert_base/bert_model.ckpt \
-  --task_name=IMDB \
-  --model_dir=$GS/uda/text/ckpt/base \
-  --num_train_steps=3000 \
-  --learning_rate=3e-05 \
-  --num_warmup_steps=300 \
-  --max_seq_length=${MAX_SEQ_LENGTH}
+  --sup_train_data_dir=$GS/uda/text/data/proc_data/${data}/train \
+  --eval_data_dir=$GS/uda/text/data/proc_data/${data}/dev \
+  --bert_config_file=$GS/uda/text/pretrained_models/${bert}/bert_config.json \
+  --vocab_file=$GS/uda/text/pretrained_models/${bert}/vocab.txt \
+  --init_checkpoint=$GS/uda/text/pretrained_models/${bert}/bert_model.ckpt \
+  --task_name=${data} \
+  --model_dir=$GS/uda/text/ckpt/${data}/${ckpt} \
+  --num_train_steps=${step} \
+  --learning_rate=${lr} \
+  --num_warmup_steps=${warmup} \
+  --max_seq_length=${MAX_SEQ_LENGTH} \
+  --train_batch_size=4 \
+  --eval_batch_size=8
